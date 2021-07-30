@@ -1,25 +1,14 @@
-<main bind:this={main} class:header class:footer on:scroll={Scroll}>
-  <slot {scroller}/>
-</main>
-
-<div class="slotHeader" class:hide={hideHeader && scroller.hide}>
-  <slot name="header"/>
-</div>
-
-<div class="slotFooter" class:hide={hideFooter && scroller.hide}>
-  <slot name="footer"/>
-</div>
-
 <script>
-  import {createEventDispatcher} from "svelte";
+  import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
   let main;
+  export let isCompactMenu = false;
   export let scroller = {
     scroll: 0,
     direction: true,
     delta: 0,
     hide: false,
-    initialScroll: 0
+    initialScroll: 0,
   };
   export let header = false;
   export let headerHeight = 64;
@@ -28,33 +17,63 @@
   export let footerHeight = 64;
   export let hideFooter = false;
   export let threshold = 64;
-  const Scroll = e => {
+
+  const Scroll = (e) => {
     const scroll = e.target.scrollTop;
-    
+
     scroller = {
       scroll,
       direction: scroll > scroller.scroll,
       delta: scroll - scroller.initialScroll,
-      hide: scroll > threshold && scroller.hide
-        ? scroll - scroller.initialScroll > -threshold
-        : scroll - scroller.initialScroll > threshold,
-      initialScroll: (scroll > scroller.scroll) != scroller.direction
-        ? scroll
-        : scroller.initialScroll
+      hide:
+        scroll > threshold && scroller.hide
+          ? scroll - scroller.initialScroll > -threshold
+          : scroll - scroller.initialScroll > threshold,
+      initialScroll:
+        scroll > scroller.scroll != scroller.direction
+          ? scroll
+          : scroller.initialScroll,
     };
-    
-    dispatch('scroller', scroller);
+
+    dispatch("scroller", scroller);
   };
-  $: if(main) {
-    main.style.setProperty('--header-height', headerHeight + 'px');
-    main.style.setProperty('--footer-height', footerHeight + 'px');
+  const logoClick = (e) => {
+    console.log(e);
+    isCompactMenu = !isCompactMenu;
+  }
+  $: if (main) {
+    main.style.setProperty("--header-height", headerHeight + "px");
+    main.style.setProperty("--footer-height", footerHeight + "px");
   }
 </script>
+
+<main bind:this={main} class:header class:footer on:scroll={Scroll}>
+  <div id="sidebar" class="app-sidebar {isCompactMenu?'compact':''}">
+    <slot name="menus"/>
+  </div>
+  <div class="main-container">
+    <slot {scroller} />
+  </div>
+</main>
+
+<div class="slotHeader" class:hide={hideHeader && scroller.hide}>
+  <slot name="header" />
+</div>
+
+<div class="slotFooter" class:hide={hideFooter && scroller.hide}>
+  <slot name="footer" />
+</div>
 
 <style>
   main {
     height: 100vh;
     overflow-y: auto;
+    background-color: var(--bg-color);
+    display: flex;
+		flex-grow: 5;
+  }
+  .main-container{
+    flex-grow: 4;
   }
   main.header {
     padding-top: var(--header-height, 0px);
@@ -67,7 +86,7 @@
     top: 0px;
     left: 0px;
     width: 100%;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
   }
   .slotHeader.hide {
     transform: translateY(-100%);
@@ -77,9 +96,26 @@
     bottom: 0px;
     left: 0px;
     width: 100%;
-    transition: all .2s ease-in-out;
+    transition: all 0.2s ease-in-out;
   }
   .slotFooter.hide {
     transform: translateY(100%);
+  }
+
+  .app-sidebar {
+    height: 100vh;
+    background-color: var(--bg-color);
+    border: 1px solid var(--fieldBorderColor);
+    box-shadow: 2px 2px 3px var(--fieldBorderColor);
+    min-width: 48px;
+    max-width: 200px;
+    flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 5px;
+  }
+
+  .app-sidebar.compact {
+    max-width: 48px !important;
   }
 </style>

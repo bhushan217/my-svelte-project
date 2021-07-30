@@ -93,8 +93,8 @@
   }
   .b2k-caption::after {
     content: "";
-    top: 10px;
-    right: 5px;
+    top: 12px;
+    right: 10px;
     position: absolute;
     border-style: solid;
     border-width: 5px 5px 0 5px;

@@ -11,10 +11,38 @@
 :root {
 	--blue: #1e90ff;
 	--white: #ffffff;
+
+  --animate-duration: 1s;
+  --animate-delay: 1s;
+  --animate-repeat: 1;
+
+  /** Light  theme*/
+  
+  /* --bg-color: #efefef;
+  --bg-color-2: #d8d8d8;
+	--text-color: #3f3f3f;
+	--text-color-2: #484848;
+
+  --brand-color: #ce0a0a;
+  --brand-color-2:#ce0a0ac7;
+
 	--fieldBgColor: #e8e8e8;
 	--fieldBgColor2: #eeeeee;
-	--fieldBorderColor: #dddddd;
-	--text-color: #333;
+	--fieldBorderColor: #dddddd; */
+
+  /** Dark  theme*/
+
+  --text-color: #bdbdbd;
+  --text-color-2: #e0e0e0;
+	--bg-color: #2d353c;
+	--bg-color-2: #303941;
+
+  --brand-color: #2d6adaf6;
+  --brand-color-2:#3c6dc7c7;
+
+	--fieldBgColor: #242c33;
+	--fieldBgColor2: #1e252b;
+	--fieldBorderColor: #191f24;
 }
 /**
  * 1. Correct the line height in all browsers.
@@ -36,6 +64,8 @@
 body {
   margin: 0;
 	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text-color-2);
+  font-size: 0.9em;
 }
 
 /**
@@ -89,6 +119,12 @@ pre {
 
 a {
   background-color: transparent;
+  color: var(--text-color); 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: all 0.4s ease;
 }
 
 /**
