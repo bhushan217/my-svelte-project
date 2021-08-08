@@ -4,20 +4,19 @@
 	
 	export let name ='B2k'
   let isCompactMenu = false;
-
-	let options = [{label:'12A', value:'12A'},{label:'12B', value:'12B'}];
+	let noDefault = true;
+	let options = [{label:'Mr', value:'Mr.'},{label:'Mrs.', value:'Mrs.'}];
 	let optionsGender = [{label:'Male', value:'M'},{label:'Female', value:'F'}];
   let user = {id: 1, name}
 	let selectedValue;
 	let gender;
 	
 	const menus = [
-		{icon: '🏐', label:'test labeltest labeltest labeltest label'},
-		{icon: '🏆', label:'test label'},
-		{icon: '🔊', label:'test labeltest labeltest label'},
-		{icon: '🔔', label:'test labeltest labeltest labeltest labeltest labeltest label'},
-		{icon: '⚙', label:'test label'},
-
+		{icon: '🏐', label:'Football'},
+		{icon: '🏆', label:'Awards'},
+		{icon: '🔊', label:'Sound'},
+		{icon: '🔔', label:'Notification'},
+		{icon: '⚙', label:'Reminder'},
 	];
 
 	const logoClick = (e) => isCompactMenu = !isCompactMenu;
@@ -27,7 +26,7 @@
   <div slot="header">
     <div class="header" class:shadow={!!scroller.scroll}>
 			<div class="brand">
-				<a href="#" class="logo-link" on:click|preventDefault={logoClick}>
+				<a href="#logo" class="logo-link" on:click|preventDefault={logoClick}>
 					<i class="icon">🏹⌚✋🏾</i>
 					<div class="logo-text"> LOGO </div>
 				</a>
@@ -39,7 +38,7 @@
 	<div slot="menus">
 		{#each menus as menu, i}
     <div class="menu-item">
-      <a href="#" class="menu-link" title="{menu.label}">
+      <a href="#{menu.label}" class="menu-link" title="{menu.label}">
         <i>{menu.icon}</i>
         <div class="menu-text">{menu.label}</div>
       </a>
@@ -51,10 +50,15 @@
     {#each Array(1) as _, i}
       <div class="item">Row {i}</div>
     {/each}
+		
+    {#each Array(14) as _, i}
 		<br/>
-		<B2kSelect bind:options={options} bind:value={selectedValue} on:change={(option)=>console.log(option)}></B2kSelect>
+		<B2kSelect bind:options={options} bind:noDefault={noDefault} bind:value={selectedValue} 
+		on:change={(option)=>console.log(option.detail.value)}></B2kSelect>
 		<br/>
-		<B2kSelect bind:options={optionsGender} bind:value={gender} on:change={(option)=>console.log(option)}></B2kSelect>
+		<B2kSelect bind:options={optionsGender} bind:value={gender} 
+		on:change={(option)=>console.log(option.detail.value)}></B2kSelect>
+    {/each}
   </div>
   <div slot="footer">
     <div class="footer" class:shadow={!!scroller.scroll}>

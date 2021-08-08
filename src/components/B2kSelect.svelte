@@ -1,21 +1,34 @@
 <script >
 	import { createEventDispatcher } from 'svelte';
+import App from '../App.svelte';
 
 	export const multiple = false;
 	export const disabled = false;
+  export let noDefault = false;
+  export let defaultValue = {label:'-Select-',value:''}
 	export let options = [];
 	export let anySelected = false;
 	export let selectedIndex = -1;
-	export let value = {label:'-Select-',value:''};
+	export let value = {...defaultValue};
 	let optionsEl;
 	const dispatch = createEventDispatcher();
 	
-  const openOptions = () => {
+  const openOptions = (ev) => {
+    // console.log('openOptions()',  ev.screenY , ev.clientY, ev.currentTarget.offsetY, screen.availHeight, ev)
+    if(screen.availHeight - ev.clientY < 200){
+      optionsEl.classList.add('pos-top')
+    }else{
+      optionsEl.classList.remove('pos-top')
+    }
     optionsEl.classList.toggle('active')
+  }
+  const focusout = (ev)=>{
+    //console.log('focusout()', ev)
+    optionsEl.classList.remove('active')
   }
 
 	const select = (option, i, e) => { 
-    console.log('select()', option, );
+    //console.log('select()', option);
     optionsEl.querySelectorAll('.b2k-option').forEach((el,i)=>el.classList.remove('selected'))
     e.currentTarget.classList.toggle('selected')
 		selectedIndex = +i;
@@ -26,13 +39,19 @@
 	
 </script>
 
-<div class=b2k-select-container on:click={openOptions} >
+<div class=b2k-select-container tabindex="0" disabled
+  on:click={openOptions} on:focusout={focusout}>
   <div class=b2k-caption >
     {value.label}
-  </div>	
+  </div>  
 	<span class="b2k-options" bind:this={optionsEl}>
+    {#if !noDefault}    
+		<div class="b2k-option {defaultValue.value===value.value ? 'selected':''}" on:click={(e) => select(defaultValue, -1, e)} >
+			<span class=b2k-option-label title="{defaultValue.label}">{defaultValue.label}</span>
+		</div>
+    {/if}
 		{#each options as option, i}
-		<div class=b2k-option on:click={(e) => select(option,i,e)} >
+		<div class="b2k-option {option.value===value.value ? 'selected':''}" on:click={(e) => select(option,i,e)} >
 			<span class=b2k-option-label title="{option.label}">{option.label}</span>
 		</div>
 		{/each}
@@ -62,21 +81,26 @@
     
     position: absolute;
     display: block;
-    top: 0;
+    top: 100%;
     left: 0;
     right: 0;
     border: 1px solid var(--fieldBorderColor);
     border-top: 0;
-    transition: all 0.5s;
+    transition: all 0.3s;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     z-index: 2;
   }
+  /** use :global when css not applied in template*/
+  :global(.b2k-options.pos-top) { 
+    transform: translateY(calc(-100% - 26px));
+  }
   .b2k-options .b2k-option {    
     position: relative;
     display: block;
     border-top: 1px solid var(--fieldBorderColor);
+    color: var(--text-color);
     width: 99%;
     padding: 5px 2px;
   }
@@ -84,7 +108,8 @@
     background-color: var(--fieldBgColor);
   }
   :global(.b2k-options .b2k-option.selected) {
-    font-weight: 600;
+    /* font-weight: 600; */
+    color: var(--text-color-2);
   }
   :global(.b2k-options.active) {
     opacity: 1 !important;

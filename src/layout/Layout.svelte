@@ -47,7 +47,8 @@
   }
 </script>
 
-<main bind:this={main} class:header class:footer on:scroll={Scroll}>
+<main bind:this={main} class:header class:footer>
+<!-- <main bind:this={main} class:header class:footer on:scroll={Scroll}> -->
   <div id="sidebar" class="app-sidebar {isCompactMenu?'compact':''}">
     <slot name="menus"/>
   </div>
@@ -74,6 +75,7 @@
   }
   .main-container{
     flex-grow: 4;
+    margin-left:140px ;
   }
   main.header {
     padding-top: var(--header-height, 0px);
@@ -113,6 +115,7 @@
     display: flex;
     flex-direction: column;
     margin-right: 5px;
+    position: fixed;
   }
 
   .app-sidebar.compact {
