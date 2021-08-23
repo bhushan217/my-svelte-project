@@ -52,7 +52,7 @@
   <div id="sidebar" class="app-sidebar {isCompactMenu?'compact':''}">
     <slot name="menus"/>
   </div>
-  <div class="main-container">
+  <div class="main-container {isCompactMenu?'compact':''}">
     <slot {scroller} />
   </div>
 </main>
@@ -76,6 +76,9 @@
   .main-container{
     flex-grow: 4;
     margin-left:140px ;
+  }
+  :global(.main-container.compact){
+    margin-left:64px !important ;
   }
   main.header {
     padding-top: var(--header-height, 0px);

@@ -1,6 +1,8 @@
 <script>
 	import Layout from './layout/Layout.svelte';
 	import B2kSelect from './components/B2kSelect.svelte';
+import B2kCheckBox from './components/B2kCheckBox.svelte';
+import { bind } from 'svelte/internal';
 	
 	export let name ='B2k'
   let isCompactMenu = false;
@@ -10,6 +12,8 @@
   let user = {id: 1, name}
 	let selectedValue;
 	let gender;
+	let optionsCB = [{label:'Mr', value:'Mr.'},{label:'Mrs.', value:'Mrs.'}];
+	
 	
 	const menus = [
 		{icon: '🏐', label:'Football'},
@@ -50,6 +54,9 @@
     {#each Array(1) as _, i}
       <div class="item">Row {i}</div>
     {/each}
+
+		<B2kCheckBox bind:options={optionsCB} 
+		on:change={(option)=>console.log(option.detail.value)}></B2kCheckBox>
 		
     {#each Array(14) as _, i}
 		<br/>
@@ -59,6 +66,7 @@
 		<B2kSelect bind:options={optionsGender} bind:value={gender} 
 		on:change={(option)=>console.log(option.detail.value)}></B2kSelect>
     {/each}
+
   </div>
   <div slot="footer">
     <div class="footer" class:shadow={!!scroller.scroll}>

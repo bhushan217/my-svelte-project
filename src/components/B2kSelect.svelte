@@ -1,8 +1,7 @@
 <script >
 	import { createEventDispatcher } from 'svelte';
-import App from '../App.svelte';
 
-	export const multiple = false;
+  export const multiple = false;
 	export const disabled = false;
   export let noDefault = false;
   export let defaultValue = {label:'-Select-',value:''}
@@ -60,6 +59,7 @@ import App from '../App.svelte';
 
 <style>
   .b2k-select-container{
+    border-radius: 6px;
     background-color: var(--fieldBgColor);
     border: 1px solid var(--fieldBorderColor);
     max-width: 400px;
@@ -71,7 +71,7 @@ import App from '../App.svelte';
     flex-direction: column;
   }
   .b2k-caption{
-    padding: 5px 2px;
+    padding: 5px 5px;
     position: relative;
   } 
   .b2k-caption:hover, .b2k-option:hover{cursor: pointer;}
