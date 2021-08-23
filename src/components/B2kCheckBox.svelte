@@ -55,9 +55,9 @@ on:click={() => onClick(option)} on:focusout={focusout}>
     margin-left: 10px;
   }
   :global(.b2k-checkbox.checked){
-    /* border: 1px solid var(--text-color-2);
-    background-color: var(--text-color);
-    color: var(--fieldBgColor2); */
+    border: 1px solid var(--brand-color);
+    background-color: var(--brand-color);
+    color: var(--text-color-2);
     position: relative;
   }
   :global(.b2k-checkbox.checked::after){
