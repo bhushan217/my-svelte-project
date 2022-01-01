@@ -399,3 +399,10 @@ template {
 [hidden] {
   display: none;
 }
+
+*:disabled, div[disabled=true] {
+  cursor: not-allowed !important;
+}
+*:disabled, div[disabled=true] * {
+  pointer-events: none;
+}

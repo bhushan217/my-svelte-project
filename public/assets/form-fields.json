@@ -1,0 +1,37 @@
+{
+	"controls": [
+		{
+				"index":0,
+				"id":"cb1",
+				"type": "cb",
+				"label":"Product",
+				"value": [{"label":"Shirt", "value": 1}],
+				"disabled":"ct1.value==''",
+				"options":[
+					{"label":"Shirt", "value": 1},
+					{"label":"Jeans", "value": 0}
+				]
+		},
+		{
+				"index":1,
+				"id":"ta1",
+				"type": "ta",
+				"label":"Description",
+				"value": "textee \n area",
+				"changeEvent":"cc2 disable",
+				"disabled":"cc2 checked is false"
+		},
+		{
+				"index":2,
+				"id":"rb1",
+				"type": "rb",
+				"label":"Agree?",
+				"value": "1",
+				"disabled":"ct3.value==''",
+				"options":[
+					{"label":"Yes", "value": 1},
+					{"label":"No", "value": 0}
+				]
+		}
+	]
+}

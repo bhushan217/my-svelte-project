@@ -2,18 +2,19 @@
 	import { createEventDispatcher } from 'svelte';
 
   export const multiple = false;
-	export const disabled = false;
+	export const disabled = true;
   export let noDefault = false;
-  export let defaultValue = {label:'-Select-',value:''}
+  export let defaultValue = [{label:'-Select-',value:''}]
 	export let options = [];
 	export let anySelected = false;
 	export let selectedIndex = -1;
   export let checked = false;
-	export let value = {...defaultValue};
+	export let value = [...defaultValue];
 	let optionsEl;
 	const dispatch = createEventDispatcher();
 
   const onClick = (option) => {
+    if(disabled) return
     checked = !checked
 		dispatch('change', {value: checked ? option : undefined}) 
   }
@@ -24,7 +25,7 @@
   </script>
   
 {#each options as option, i}
-<div class=b2k-checkbox-container tabindex="0" disabled
+<div class=b2k-checkbox-container tabindex="0" disabled={disabled}
 on:click={() => onClick(option)} on:focusout={focusout}>
   <span class="b2k-checkbox {checked? 'checked':''}" bind:this={optionsEl}>
   </span>

@@ -1,8 +1,11 @@
 <script>
 	import Layout from './layout/Layout.svelte';
 	import B2kSelect from './components/B2kSelect.svelte';
-import B2kCheckBox from './components/B2kCheckBox.svelte';
-import { bind } from 'svelte/internal';
+	import B2kCheckBox from './components/B2kCheckBox.svelte';
+	import { bind } from 'svelte/internal';
+	import Loading from './components/ui/shared/Loading.svelte'
+	import DynamicForm from './components/ui/DynamicForm.svelte'
+
 	
 	export let name ='B2k'
   let isCompactMenu = false;
@@ -13,7 +16,7 @@ import { bind } from 'svelte/internal';
 	let selectedValue;
 	let gender;
 	let optionsCB = [{label:'Mr', value:'Mr.'},{label:'Mrs.', value:'Mrs.'}];
-	
+
 	
 	const menus = [
 		{icon: '🏐', label:'Football'},
@@ -24,6 +27,11 @@ import { bind } from 'svelte/internal';
 	];
 
 	const logoClick = (e) => isCompactMenu = !isCompactMenu;
+	let isLoading = true;
+	const loading = e => { 
+		console.log(isLoading, e.detail)
+		isLoading = e.detail;
+	};
 </script>
 
 <Layout header hideHeader headerHeight={56} isCompactMenu={isCompactMenu} footerHeight={24} menus let:scroller>
@@ -49,7 +57,9 @@ import { bind } from 'svelte/internal';
     </div>
     {/each}
   </div>
-
+	{#if isLoading}
+		<Loading {isLoading}/>
+	{/if}
   <div>
     {#each Array(1) as _, i}
       <div class="item">Row {i}</div>
@@ -58,7 +68,8 @@ import { bind } from 'svelte/internal';
 		<B2kCheckBox bind:options={optionsCB} 
 		on:change={(option)=>console.log(option.detail.value)}></B2kCheckBox>
 		
-    {#each Array(14) as _, i}
+
+    {#each Array(1) as _, i}
 		<br/>
 		<B2kSelect bind:options={options} bind:noDefault={noDefault} bind:value={selectedValue} 
 		on:change={(option)=>console.log(option.detail.value)}></B2kSelect>
@@ -66,15 +77,14 @@ import { bind } from 'svelte/internal';
 		<B2kSelect bind:options={optionsGender} bind:value={gender} 
 		on:change={(option)=>console.log(option.detail.value)}></B2kSelect>
     {/each}
-
   </div>
+	<DynamicForm on:loading={loading }/>
   <div slot="footer">
     <div class="footer" class:shadow={!!scroller.scroll}>
 			DynoFields💙
 		</div>
   </div>
 </Layout>
-
 <style>
 	.header {
 		background-color: var(--bg-color-2);
